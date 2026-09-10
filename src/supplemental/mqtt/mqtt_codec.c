@@ -448,7 +448,7 @@ nni_mqtt_msg_free(void *self)
 	if (self) {
 		nni_mqtt_proto_data *mqtt = self;
 		mqtt_msg_content_free(mqtt);
-		free(mqtt);
+		NNI_FREE_STRUCT(mqtt);
 		mqtt = NULL;
 		return (0);
 	}
@@ -3812,7 +3812,7 @@ property_parse(struct pos_buf *buf, property *prop, uint8_t prop_id,
 
 	default:
 		log_error("Unknown type %d", type);
-		free(prop);
+		NNI_FREE_STRUCT(prop);
 		return NULL;
 	}
 
@@ -3862,7 +3862,7 @@ property_remove(property *prop_list, uint8_t prop_id)
 				} else {
 					p->next = NULL;
 				}
-				free(p_temp);
+				NNI_FREE_STRUCT(p_temp);
 				break;
 			}
 		}
@@ -3980,7 +3980,7 @@ property_free(property *prop)
 				break;
 			}
 		}
-		free(p);
+		NNI_FREE_STRUCT(p);
 		p = NULL;
 	}
 	return 0;
