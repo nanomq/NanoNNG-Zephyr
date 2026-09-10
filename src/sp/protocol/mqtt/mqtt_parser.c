@@ -7,6 +7,7 @@
 // found online at https://opensource.org/licenses/MIT.
 //
 
+#include <stdlib.h>
 #include "core/nng_impl.h"
 #include "core/sockimpl.h"
 #include "core/zmalloc.h"
@@ -1683,19 +1684,19 @@ nmq_subtopic_decode(nng_msg *msg, uint8_t ver, topic_queue **ptq)
 		if (bpos + len_of_topic > remain)
 			return (-3);
 
-		if ((topic = nng_alloc(len_of_topic + 1)) == NULL)
+		if ((topic = malloc(len_of_topic + 1)) == NULL)
 			return (-2);
 
 		strncpy(topic, (char *) payload_ptr + bpos, len_of_topic);
 		topic[len_of_topic] = 0x00;
 
 		if (tq == NULL) {
-			tq = nng_alloc(sizeof(topic_queue));
+			tq = malloc(sizeof(topic_queue));
 			curtq = tq;
 			curtq->topic = topic;
 			curtq->next = NULL;
 		} else {
-			curtq->next = nng_alloc(sizeof(topic_queue));
+			curtq->next = malloc(sizeof(topic_queue));
 			curtq->next->topic = topic;
 			curtq = curtq->next;
 			curtq->next = NULL;
